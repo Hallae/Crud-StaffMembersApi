@@ -74,11 +74,14 @@ namespace Members.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<List<StaffMembers>>> Delete(int id )
         {
-            var member = members.Find(h => h.id == id);
-            if (member == null)
+            var dbstaffmembers = await _context.StaffMembers.FindAsync(id);
+            if (dbstaffmembers == null)
                 return BadRequest("Member not found");
 
-            return Ok(members);
+            _context.StaffMembers.Remove(dbstaffmembers);
+            await _context.SaveChangesAsync();
+
+            return Ok(await _context.StaffMembers.ToListAsync());
         }
 
 
