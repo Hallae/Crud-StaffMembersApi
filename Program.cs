@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 
 // Add dbcontext for sqlserver
 builder.Services.AddDbContext<DataContext>(options =>
-{ options.UseSqlServer(); }
+{ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")); }
 ) ;
 
 
