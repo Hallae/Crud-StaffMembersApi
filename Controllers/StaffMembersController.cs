@@ -22,8 +22,12 @@ namespace Members.Controllers
 
         }  };
 
-
-
+        //so changes can be updated directly from database
+        private readonly DataContext _context;
+        public StaffMembersController (DataContext context)
+        {
+            _context = context;
+        }
 
 
 
@@ -38,9 +42,11 @@ namespace Members.Controllers
         [HttpPost]
         public async Task<ActionResult<List<StaffMembers>>> AddMember(StaffMembers  member )
         {
-            
-            members.Add(member);
-            return Ok(members);
+            // add and then enables save changes to database.
+            _context.StaffMembers.Add(member);
+            await _context.SaveChangesAsync();
+
+            return Ok(await _context.StaffMembers.ToListAsync());
         }
 
 
