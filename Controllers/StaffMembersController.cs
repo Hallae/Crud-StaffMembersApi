@@ -52,18 +52,21 @@ namespace Members.Controllers
 
         [HttpPut]
         public async Task<ActionResult<List<StaffMembers>>> UpdateStaff(StaffMembers request  )
-        {
-            var member = members.Find(h => h.id == request.id);
-            if (member == null)
+        {  
+            // add and then enables save changes to database.
+            var dbstaffmembers = await _context.StaffMembers.FindAsync(request.id);
+            if (dbstaffmembers == null)
                 return BadRequest("Member not found");
 
-            member.FirstName = request.FirstName;
-            member.Otchectva = request.Otchectva;
-            member.LastName = request.LastName;
-            member.Address = request.Address;
-            member.Salary = request.Salary;
+            dbstaffmembers.FirstName = request.FirstName;
+            dbstaffmembers.Otchectva = request.Otchectva;
+            dbstaffmembers.LastName = request.LastName;
+            dbstaffmembers.Address = request.Address;
+            dbstaffmembers.Salary = request.Salary;
 
-            return Ok(members);
+            await _context.SaveChangesAsync();
+
+            return Ok(await _context.StaffMembers.ToListAsync());
         }
 
 
