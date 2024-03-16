@@ -10,18 +10,7 @@ namespace Members.Controllers
     public class StaffMembersController : ControllerBase
     {
 
-        private static List<StaffMembers> members = new List<StaffMembers>()
-        {
-             {
-                new StaffMembers {id = 1,
-                    Address="komsomolsky dom 6",
-                    LastName =" Egor",
-                    FirstName =" ivan",
-                    Otchectva="egorvich",
-                    Salary= 60000 }
-
-        }  };
-
+       
         //so changes can be updated directly from database
         private readonly DataContext _context;
         public StaffMembersController (DataContext context)
@@ -35,7 +24,7 @@ namespace Members.Controllers
         public async Task<ActionResult<List<StaffMembers>>> Get()
         {
 
-            return Ok(members);
+            return Ok(await _context.StaffMembers.ToListAsync());
         }
 
 
