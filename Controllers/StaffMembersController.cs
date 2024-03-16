@@ -59,7 +59,20 @@ namespace Members.Controllers
 
             return Ok(members);
         }
-      
+
+
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<List<StaffMembers>>> Delete(int id )
+        {
+            var member = members.Find(h => h.id == id);
+            if (member == null)
+                return BadRequest("Member not found");
+
+            return Ok(members);
+        }
+
+
 
 
     }
