@@ -36,11 +36,31 @@ namespace Members.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<List<StaffMembers>>> AddMember(StaffMembers member )
+        public async Task<ActionResult<List<StaffMembers>>> AddMember(StaffMembers  member )
         {
+            
             members.Add(member);
             return Ok(members);
         }
+
+
+        [HttpPut]
+        public async Task<ActionResult<List<StaffMembers>>> UpdateStaff(StaffMembers request  )
+        {
+            var member = members.Find(h => h.id == request.id);
+            if (member == null)
+                return BadRequest("Member not found");
+
+            member.FirstName = request.FirstName;
+            member.Otchectva = request.Otchectva;
+            member.LastName = request.LastName;
+            member.Address = request.Address;
+            member.Salary = request.Salary;
+
+            return Ok(members);
+        }
+      
+
 
     }
 
